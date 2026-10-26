@@ -1,0 +1,8 @@
+node_modules/
+artifacts/
+.env*
+!.env.example
+app/.next/
+app/out/
+app/next-env.d.ts
+state/
