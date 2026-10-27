@@ -363,6 +363,33 @@ function Studio() {
           <p className="stamp text-[10px] text-steel">chain 677 · bot chain mainnet</p>
           <p className="stamp text-[10px] text-steel">[ attested ]</p>
         </div>
+        <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-3 border-t border-rule pt-5">
+          <a
+            href="https://www.botchain.ai"
+            target="_blank"
+            rel="noopener noreferrer"
+            title="BOT Chain"
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/bot-chain.svg" alt="BOT Chain" className="h-3.5 w-auto opacity-70 hover:opacity-100" />
+          </a>
+          <a
+            href="https://www.botchain.ai"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="stamp text-[10px] text-steel hover:text-secondary"
+          >
+            botchain.ai ↗
+          </a>
+          <a
+            href="https://scan.botchain.ai"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="stamp text-[10px] text-steel hover:text-secondary"
+          >
+            BOT Chain Explorer ↗
+          </a>
+        </div>
       </footer>
     </main>
   );
