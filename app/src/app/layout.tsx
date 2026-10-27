@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
-import { JetBrains_Mono } from "next/font/google";
+import { Inter, JetBrains_Mono, Lora } from "next/font/google";
 import "./globals.css";
 
-const mono = JetBrains_Mono({ subsets: ["latin"], weight: ["400", "700"], variable: "--font-jbmono" });
+const inter = Inter({ subsets: ["latin"], weight: ["300", "400", "500"], variable: "--font-inter" });
+const jbmono = JetBrains_Mono({ subsets: ["latin"], weight: ["400"], variable: "--font-jbmono" });
+const lora = Lora({ subsets: ["latin"], weight: ["400"], style: "italic", variable: "--font-lora" });
 
 export const metadata: Metadata = {
   title: "ProofOfAI · Content Authenticity",
@@ -12,7 +14,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en">
-      <body className={mono.variable + " font-sans"}>{children}</body>
+      <body className={`${inter.variable} ${jbmono.variable} ${lora.variable} font-sans`}>{children}</body>
     </html>
   );
 }

@@ -301,13 +301,13 @@ export function WalletProvider({
 export function ConnectWalletButton() {
   const { status, address, balance, switchChain, openWalletModal, disconnect } = useWallet();
   const btn =
-    "rounded-lg px-4 py-2 text-sm font-medium focus-visible:outline-2 focus-visible:outline-primary";
+    "rounded-md px-4 py-2 text-sm focus-visible:outline-2 focus-visible:outline-foreground";
 
   if (status === "ready") {
     return (
       <button
         onClick={disconnect}
-        className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 text-xs font-mono text-foreground hover:border-secondary focus-visible:outline-2 focus-visible:outline-primary"
+        className="inline-flex items-center gap-2 rounded-full border border-border bg-ghost px-3 py-1 text-xs font-mono text-foreground hover:border-border-strong focus-visible:outline-2 focus-visible:outline-foreground"
         title={`${address} · ${Number(formatEther(balance)).toFixed(4)} BOT · click to disconnect`}
       >
         <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-success" />
@@ -326,7 +326,7 @@ export function ConnectWalletButton() {
     <button
       onClick={openWalletModal}
       disabled={status === "connecting"}
-      className={`${btn} bg-primary text-primary-foreground hover:bg-primary-hover disabled:opacity-50`}
+      className={`${btn} border border-foreground bg-background text-foreground hover:bg-elevated disabled:opacity-50`}
     >
       {status === "connecting" ? "Connecting…" : "Connect wallet →"}
     </button>

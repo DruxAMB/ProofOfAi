@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { BrowserProvider, Contract, JsonRpcProvider, hexlify, keccak256 } from "ethers";
 import { toast } from "sonner";
 import { WalletProvider, ConnectWalletButton, useWallet } from "./Wallet";
@@ -96,31 +96,101 @@ function Studio() {
   };
 
   return (
-    <main className="mx-auto max-w-3xl px-4 pb-20">
+    <main id="studio" className="mx-auto max-w-4xl px-5 pb-24">
       {!DEPLOYED && (
-        <p className="mt-6 rounded border border-warning/40 bg-card px-4 py-3 text-xs text-warning">
+        <p className="mt-6 rounded-lg border border-warning/40 bg-card px-4 py-3 text-xs text-warning">
           contract not deployed yet — run <code>npm run deploy</code> after funding the deployer
         </p>
       )}
 
-      <p className="mt-6 text-xs text-muted-foreground">
-        Total notarized:{" "}
-        <span className="text-foreground">{total === null ? "—" : total}</span> · files never leave
-        your browser; only the keccak256 hash is written on-chain.
-      </p>
+      {/* HERO — full-bleed twilight sky, italic display line, boarding-pass card */}
+      <section className="sky-hero -mx-5 -mt-0 mb-14 px-5 pb-24 pt-16 sm:pt-24">
+        <div className="grid items-center gap-10 sm:grid-cols-[1.15fr_0.85fr]">
+          <div>
+            <p className="stamp text-[11px] text-secondary">content authenticity · BOT Chain</p>
+            <h1 className="mt-8 font-display text-6xl leading-[0.92] tracking-tight text-foreground sm:text-8xl">
+              Stamp it,
+              <br />
+              <span className="font-sans text-5xl font-light not-italic sm:text-6xl">
+                and it exists.
+              </span>
+            </h1>
+            <p className="mt-8 max-w-md text-lg font-light leading-relaxed text-secondary">
+              keccak256 your file or text in the browser — only the hash is
+              written on-chain, timestamped to your wallet.
+            </p>
+            <p className="mt-10 font-mono text-xs tracking-wider text-secondary">
+              <span className="text-foreground">{total === null ? "—" : total.toLocaleString()}</span>
+              {" "}attestations sealed · forever · no stopovers
+            </p>
+          </div>
 
-      <div className="mt-6 grid gap-6 sm:grid-cols-2">
+          {/* ATTESTATION PASS — their boarding-pass card, doing our job */}
+          <div className="rounded-lg border border-border bg-ghost p-7 backdrop-blur-sm">
+            <div className="flex items-center justify-between">
+              <p className="stamp text-[10px] text-secondary">attestation pass</p>
+              <p className="font-mono text-[10px] text-steel">POAI</p>
+            </div>
+            <div className="mt-6 flex items-end justify-between gap-3 font-mono">
+              <div className="min-w-0">
+                <p className="stamp text-[9px] text-steel">origin</p>
+                <p className="mt-1 text-base text-foreground sm:text-xl">CONTENT</p>
+              </div>
+              <p className="pb-1 shrink-0 text-lavender">→</p>
+              <div className="min-w-0 text-right">
+                <p className="stamp text-[9px] text-steel">destination</p>
+                <p className="mt-1 text-base text-foreground sm:text-xl">BLOCK&nbsp;677</p>
+              </div>
+            </div>
+            <div className="mt-6 border-t border-dashed border-border-strong pt-5">
+              <div className="flex justify-between font-mono text-[10px] text-steel">
+                <span>SEAT</span><span>GATE</span><span>VALID</span>
+              </div>
+              <div className="mt-1 flex justify-between font-mono text-sm text-foreground">
+                <span>0x{CONTRACT_ADDRESS.slice(2, 6).toUpperCase()}</span>
+                <span>NOW</span>
+                <span>FOREVER</span>
+              </div>
+            </div>
+            <div className="barcode mt-6 h-10 opacity-80" aria-hidden />
+            <p className="mt-3 truncate text-center font-mono text-[9px] tracking-[0.22em] text-steel">
+              {CONTRACT_ADDRESS.slice(2, 34).toUpperCase()}
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* flight-route connector: two stops, one line, node markers */}
+      <div className="mb-8 flex items-center gap-4">
+        <div className="flex items-center gap-3">
+          <span className="flex h-8 w-8 items-center justify-center rounded-full border border-border-strong font-mono text-[11px] text-foreground">01</span>
+          <p className="stamp text-sm text-foreground sm:text-lg">notarize</p>
+        </div>
+        <div className="relative h-px flex-1 bg-border-strong" aria-hidden>
+          <span className="absolute -top-[3px] left-1/2 h-[7px] w-[7px] -translate-x-1/2 rounded-full bg-lavender" />
+        </div>
+        <div className="flex items-center gap-3">
+          <p className="stamp text-sm text-foreground sm:text-lg">verify</p>
+          <span className="flex h-8 w-8 items-center justify-center rounded-full border border-border-strong font-mono text-[11px] text-foreground">02</span>
+        </div>
+      </div>
+
+      <div className="grid gap-6 sm:grid-cols-2">
         {/* NOTARIZE */}
-        <section className="rounded-lg border border-border bg-card p-5">
-          <h2 className="text-sm font-bold text-foreground">Notarize</h2>
-          <div className="mt-3 flex gap-1 rounded border border-border p-0.5" role="tablist">
+        <section className="rounded-lg border border-border bg-card p-8 sm:p-10">
+          <p className="stamp text-[10px] text-steel">step 01 · notarize</p>
+          <div className="mt-5 flex gap-2" role="tablist">
             {(["file", "text"] as const).map((m) => (
               <button
                 key={m}
                 role="tab"
                 aria-selected={mode === m}
                 onClick={() => setMode(m)}
-                className={`flex-1 rounded px-2 py-1 text-xs ${mode === m ? "bg-elevated text-foreground" : "text-muted-foreground hover:text-secondary"}`}
+                className={`rounded-full px-5 py-2 text-sm transition-colors ${
+                  mode === m
+                    ? "bg-elevated text-foreground"
+                    : "text-muted-foreground hover:text-secondary"
+                }`}
               >
                 {m}
               </button>
@@ -145,8 +215,8 @@ function Studio() {
                 const f = e.dataTransfer.files?.[0];
                 if (f) void hashFile(f);
               }}
-              className={`mt-3 flex h-28 cursor-pointer flex-col items-center justify-center rounded border border-dashed px-3 text-center text-xs transition-colors ${
-                dragOn ? "border-primary text-primary" : "border-border-strong text-muted-foreground hover:border-secondary"
+              className={`mt-5 flex h-28 cursor-pointer flex-col items-center justify-center rounded-md border border-dashed px-3 text-center text-sm transition-colors ${
+                dragOn ? "border-lavender text-lavender" : "border-border-strong text-muted-foreground hover:border-secondary hover:text-secondary"
               }`}
             >
               <input
@@ -173,7 +243,7 @@ function Studio() {
               rows={4}
               placeholder="paste the text to timestamp…"
               aria-label="text to notarize"
-              className="mt-3 w-full rounded border border-border bg-background px-3 py-2 text-xs text-foreground placeholder:text-steel focus:border-primary focus:outline-none"
+              className="mt-5 w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-steel focus:border-border-strong focus:outline-none"
             />
           )}
 
@@ -181,16 +251,16 @@ function Studio() {
             <p className="mt-2 break-all font-mono text-[10px] text-steel">{textHash}</p>
           )}
 
-          <div className="mt-3 flex items-center gap-2">
-            <span className="text-[10px] uppercase tracking-wide text-steel">kind</span>
+          <div className="mt-5 flex items-center gap-2">
+            <span className="stamp text-[10px] text-steel">kind</span>
             {KINDS.map((k, i) => (
               <button
                 key={k}
                 onClick={() => setKind(i)}
                 aria-pressed={kind === i}
-                className={`rounded border px-2 py-0.5 text-[11px] ${
+                className={`rounded-sm border px-2.5 py-1 font-mono text-[11px] tracking-wider ${
                   kind === i
-                    ? "border-primary text-primary"
+                    ? "border-border-strong bg-elevated text-foreground"
                     : "border-border text-muted-foreground hover:text-secondary"
                 }`}
               >
@@ -199,19 +269,20 @@ function Studio() {
             ))}
           </div>
 
+          {/* the page's one violet filled action */}
           <button
             onClick={notarize}
             disabled={busy || status !== "ready" || !activeHash}
-            className="mt-3 w-full rounded bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary-hover disabled:opacity-50"
+            className="mt-6 w-full rounded-md bg-primary px-4 py-3 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary-hover disabled:opacity-40"
           >
             {busy ? "submitting…" : "Notarize on-chain"}
           </button>
         </section>
 
         {/* VERIFY */}
-        <section className="rounded-lg border border-border bg-card p-5">
-          <h2 className="text-sm font-bold text-foreground">Verify</h2>
-          <p className="mt-1 text-xs text-muted-foreground">
+        <section className="rounded-lg border border-border bg-card p-8 sm:p-10">
+          <p className="stamp text-[10px] text-steel">step 02 · verify</p>
+          <p className="mt-3 text-sm text-muted-foreground">
             Paste a content hash to see who notarized it and when.
           </p>
           <input
@@ -219,25 +290,26 @@ function Studio() {
             onChange={(e) => setVHash(e.target.value)}
             placeholder="0x…"
             aria-label="hash to verify"
-            className="mt-3 w-full rounded border border-border bg-background px-3 py-2 font-mono text-xs text-foreground placeholder:text-steel focus:border-primary focus:outline-none"
+            className="mt-5 w-full rounded-md border border-border bg-background px-3 py-2.5 font-mono text-sm text-foreground placeholder:text-steel focus:border-border-strong focus:outline-none"
           />
+          {/* Filled Action Button: void fill, the white border does the work */}
           <button
             onClick={() => verify(vHash)}
             disabled={verifyBusy || !vHash}
-            className="mt-3 w-full rounded border border-border px-4 py-2 text-sm text-foreground hover:border-secondary disabled:opacity-50"
+            className="mt-4 w-full rounded-md border border-foreground bg-background px-4 py-3 text-sm text-foreground transition-colors hover:bg-elevated disabled:border-border disabled:text-muted-foreground"
           >
             {verifyBusy ? "checking…" : "Verify"}
           </button>
 
           {verified && (
             <div
-              className={`mt-4 rounded border px-3 py-2.5 text-xs ${
+              className={`mt-5 rounded-md border px-4 py-3 text-sm ${
                 verified.exists ? "border-success/40" : "border-danger/40"
               }`}
               role="status"
             >
               {verified.exists ? (
-                <dl className="space-y-1.5">
+                <dl className="space-y-2">
                   <div className="flex justify-between">
                     <dt className="text-steel">status</dt>
                     <dd className="text-success">notarized ✓</dd>
@@ -257,11 +329,11 @@ function Studio() {
                   </div>
                   <div className="flex justify-between">
                     <dt className="text-steel">recorded</dt>
-                    <dd className="text-secondary">{fmtDate(verified.timestamp)}</dd>
+                    <dd className="font-mono text-[12px] text-secondary">{fmtDate(verified.timestamp)}</dd>
                   </div>
                   <div className="flex justify-between">
                     <dt className="text-steel">kind</dt>
-                    <dd className="text-primary">{KINDS[verified.kind]}</dd>
+                    <dd className="font-mono text-[12px] text-secondary">{KINDS[verified.kind]}</dd>
                   </div>
                 </dl>
               ) : (
@@ -271,6 +343,27 @@ function Studio() {
           )}
         </section>
       </div>
+
+      {/* coordinate stamp footer — "postcard from a city" */}
+      <footer className="mt-24 border-t border-rule pt-8 pb-6">
+        <div className="flex items-center justify-between font-mono text-[12px] tracking-wider text-muted-foreground">
+          <span>
+            <span aria-hidden className="text-foreground">+</span> Fly Direct · Attestation Registry
+          </span>
+          <a
+            href={`${NET.explorer}/address/${CONTRACT_ADDRESS}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-secondary underline decoration-dotted underline-offset-4 hover:text-foreground"
+          >
+            {short(CONTRACT_ADDRESS)}
+          </a>
+        </div>
+        <div className="mt-6 flex items-center justify-between">
+          <p className="stamp text-[10px] text-steel">chain 677 · bot chain mainnet</p>
+          <p className="stamp text-[10px] text-steel">[ attested ]</p>
+        </div>
+      </footer>
     </main>
   );
 }
@@ -278,17 +371,23 @@ function Studio() {
 export default function Home() {
   return (
     <WalletProvider chainId={NET.chainId} chainName={NET.name} rpc={NET.rpc} explorer={NET.explorer}>
-      <div className="min-h-screen bg-surface text-foreground font-sans">
-        <header className="mx-auto flex max-w-3xl items-center justify-between px-4 pt-6">
-          <div>
-            <h1 className="text-base font-bold tracking-tight text-foreground">
-              <span className="text-primary">▮</span> ProofOfAI
-            </h1>
-            <p className="text-[11px] text-muted-foreground">
-              content authenticity · BOT Chain mainnet
-            </p>
+      <div className="min-h-screen overflow-x-clip bg-surface font-sans font-light text-foreground">
+        {/* frosted nav — blur is the design */}
+        <header className="frosted-nav sticky top-0 z-40 border-b border-border">
+          <div className="mx-auto flex max-w-4xl items-center justify-between px-5 py-4">
+            <a href="#" className="text-sm font-medium tracking-tight text-foreground">
+              ProofOfAI
+            </a>
+            <nav className="hidden items-center gap-7 sm:flex">
+              <a href="#studio" className="stamp text-[10px] text-muted-foreground transition-colors hover:text-secondary">
+                notarize
+              </a>
+              <a href="#studio" className="stamp text-[10px] text-muted-foreground transition-colors hover:text-secondary">
+                verify
+              </a>
+            </nav>
+            <ConnectWalletButton />
           </div>
-          <ConnectWalletButton />
         </header>
         <Studio />
       </div>

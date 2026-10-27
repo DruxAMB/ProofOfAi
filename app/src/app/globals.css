@@ -1,34 +1,94 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: var(--font-jbmono), ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-jbmono), ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  --color-background: #000000;
-  --color-card: #111111;
-  --color-elevated: #191919;
-  --color-border: #202020;
-  --color-border-strong: #3a3a3a;
-  --color-rule: #505050;
-  --color-foreground: #eeeeee;
-  --color-secondary: #b4b4b4;
-  --color-muted-foreground: #7e7e7e;
-  --color-steel: #606060;
-  --color-primary: #b084f5;
-  --color-primary-hover: #9668dd;
-  --color-primary-foreground: #000000;
+  --font-display: var(--font-lora), Georgia, serif;
+
+  --color-background: #090909;
+  --color-surface: #090909;
+  --color-card: #0c0c0c;
+  --color-elevated: rgba(247, 249, 250, 0.08);
+  --color-nav-bg: rgba(51, 50, 72, 0.7);
+  --color-border: rgba(247, 249, 250, 0.16);
+  --color-border-strong: rgba(247, 249, 250, 0.4);
+  --color-rule: rgba(247, 249, 250, 0.1);
+  --color-iron: #423738;
+  --color-foreground: #f7f9fa;
+  --color-secondary: #f0f0f0;
+  --color-muted-foreground: #828384;
+  --color-steel: #828384;
+  --color-ash: #6b6b6b;
+  --color-graphite: #474747;
+  --color-primary: #af50ff;
+  --color-primary-hover: #c47fff;
+  --color-primary-foreground: #090909;
+  --color-lavender: #e1bdff;
+  --color-ghost: rgba(247, 249, 250, 0.06);
   --color-success: #5fae72;
   --color-warning: #d19a3a;
   --color-danger: #d1553b;
-  --radius-sm: 2px; --radius-md: 2px; --radius-lg: 2px; --radius-xl: 2px; --radius-2xl: 2px; --radius-3xl: 2px;
-  --color-surface: #000000;
+
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 20px;
+  --radius-xl: 20px;
+  --radius-2xl: 20px;
+  --radius-3xl: 20px;
 }
+
+/* dope.security rules: shadowless — depth is hairlines + washes only.
+   Signal Violet is rationed: one glow, one filled action, accent strokes. */
+
+/* generative twilight sky — evokes their atmospheric photo without copying it */
+.sky-hero {
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(104deg, transparent 44%, rgba(255, 240, 225, 0.28) 49.6%, rgba(255, 240, 225, 0.65) 50%, rgba(255, 240, 225, 0.28) 50.4%, transparent 56%),
+    radial-gradient(ellipse 65% 26% at 18% 76%, rgba(196, 148, 208, 0.38), transparent 70%),
+    radial-gradient(ellipse 52% 22% at 72% 66%, rgba(168, 118, 196, 0.32), transparent 70%),
+    radial-gradient(ellipse 42% 18% at 46% 84%, rgba(212, 162, 188, 0.26), transparent 70%),
+    radial-gradient(ellipse 95% 42% at 50% 96%, rgba(236, 182, 156, 0.42), transparent 78%),
+    linear-gradient(180deg, #07060e 0%, #150f2a 30%, #37204e 55%, #66416a 75%, #9c6670 88%, #c48a70 100%);
+}
+.sky-hero::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 34%;
+  background: linear-gradient(to bottom, transparent, #090909);
+  pointer-events: none;
+}
+.sky-hero > * { position: relative; z-index: 1; }
+
+.barcode {
+  background:
+    repeating-linear-gradient(90deg, rgba(247, 249, 250, 0.85) 0 2px, transparent 2px 5px, rgba(247, 249, 250, 0.85) 5px 6px, transparent 6px 10px),
+    repeating-linear-gradient(90deg, transparent 0 3px, rgba(247, 249, 250, 0.4) 3px 4px, transparent 4px 7px);
+  background-blend-mode: normal;
+}
+
+.stamp {
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+}
+
+.frosted-nav {
+  background: rgba(51, 50, 72, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
 .manual-expand { display: grid; grid-template-rows: 0fr; opacity: 0; transition: grid-template-rows 0.32s cubic-bezier(0.4,0,0.2,1), opacity 0.24s ease; }
 .manual-expand[data-open] { grid-template-rows: 1fr; opacity: 1; }
 .manual-expand .manual-inner { overflow: hidden; min-height: 0; }
 .manual-expand .manual-body { transform: translateY(-6px); transition: transform 0.32s cubic-bezier(0.4,0,0.2,1); }
 .manual-expand[data-open] .manual-body { transform: none; }
 @media (prefers-reduced-motion: reduce) { .manual-expand, .manual-expand .manual-body { transition: none; } }
-* { scrollbar-width: thin; scrollbar-color: var(--color-border-strong) transparent; }
+
+* { scrollbar-width: thin; scrollbar-color: var(--color-graphite) transparent; }
 ::-webkit-scrollbar { width: 10px; height: 10px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--color-border-strong); border: 3px solid var(--color-background); border-radius: 2px; }
+::-webkit-scrollbar-thumb { background: var(--color-graphite); border: 3px solid var(--color-background); border-radius: 6px; }
