@@ -350,14 +350,6 @@ function Studio() {
           <span>
             <span aria-hidden className="text-foreground">+</span> Fly Direct · Attestation Registry
           </span>
-          <a
-            href={`${NET.explorer}/address/${CONTRACT_ADDRESS}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-secondary underline decoration-dotted underline-offset-4 hover:text-foreground"
-          >
-            {short(CONTRACT_ADDRESS)}
-          </a>
         </div>
         <div className="mt-6 flex items-center justify-between">
           <p className="stamp text-[10px] text-steel">chain 677 · bot chain mainnet</p>
@@ -388,6 +380,14 @@ function Studio() {
             className="stamp text-[10px] text-steel hover:text-secondary"
           >
             BOT Chain Explorer ↗
+          </a>
+          <a
+            href={`${NET.explorer}/address/${CONTRACT_ADDRESS}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-mono text-[10px] tracking-wider text-secondary underline decoration-dotted underline-offset-4 hover:text-foreground"
+          >
+            {short(CONTRACT_ADDRESS)}
           </a>
         </div>
       </footer>
