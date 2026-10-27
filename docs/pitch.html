@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ProofOfAI — Project Pitch</title>
+<style>
+  * { margin: 0; box-sizing: border-box; }
+  body { font-family: "Inter", "Segoe UI", system-ui, sans-serif; color: #161616; background: #fff; }
+  .page { width: 1100px; margin: 0 auto; padding: 64px 72px; }
+  .hero { background:
+      linear-gradient(105deg, transparent 44%, rgba(255,240,225,.35) 49.8%, rgba(255,240,225,.7) 50%, rgba(255,240,225,.35) 50.2%, transparent 56%),
+      radial-gradient(ellipse 70% 30% at 20% 78%, rgba(196,148,208,.45), transparent 70%),
+      radial-gradient(ellipse 95% 45% at 50% 100%, rgba(236,182,156,.5), transparent 78%),
+      linear-gradient(165deg, #07060e 0%, #1a1130 35%, #43285c 60%, #8a5c74 85%, #c48a70 100%);
+    color: #fff; border-radius: 24px; padding: 56px 56px 48px; }
+  .stamp { font-family: "JetBrains Mono", Consolas, monospace; text-transform: uppercase; letter-spacing: .2em; }
+  .eyebrow { font-size: 13px; opacity: .85; }
+  h1 { font-size: 46px; font-weight: 300; letter-spacing: -0.02em; margin-top: 12px; line-height: 1.08; }
+  h1 .it { font-family: Georgia, "Times New Roman", serif; font-style: italic; font-weight: 400; }
+  .tag { margin-top: 14px; font-size: 17px; max-width: 640px; opacity: .92; font-weight: 300; }
+  .links { margin-top: 22px; font-size: 13px; opacity: .95; }
+  .links span { display: inline-block; background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.35); border-radius: 999px; padding: 5px 13px; margin-right: 8px; }
+  h2 { font-family: "JetBrains Mono", Consolas, monospace; font-size: 15px; font-weight: 400;
+       text-transform: uppercase; letter-spacing: .2em; margin: 46px 0 12px; color: #161616; }
+  p, li { font-size: 14.5px; line-height: 1.55; color: #333; }
+  .cols { display: flex; gap: 28px; }
+  .col { flex: 1; }
+  ul { padding-left: 18px; }
+  li { margin-bottom: 6px; }
+  .card { background: #fafafa; border: 1px solid #e8e8e8; border-radius: 16px; padding: 22px 24px; margin-top: 14px; }
+  .card b { font-weight: 500; }
+  table { border-collapse: collapse; width: 100%; margin-top: 10px; font-size: 13.5px; }
+  th { text-align: left; font-weight: 500; color: #666; padding: 8px 10px; border-bottom: 1px solid #ddd; }
+  td { padding: 8px 10px; border-bottom: 1px solid #eee; vertical-align: top; }
+  .mono { font-family: "JetBrains Mono", Consolas, monospace; font-size: 12.5px; }
+  .flow { display: flex; align-items: center; gap: 10px; margin-top: 14px; font-size: 13px; }
+  .flow .box { background: #0b0b0b; color: #f7f9fa; border-radius: 12px; padding: 12px 16px; }
+  .flow .arr { color: #888; }
+  .addr { background: #f0f0f1; border-radius: 8px; padding: 2px 7px; }
+  .vio { color: #8e3ff0; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="hero">
+    <div class="eyebrow stamp">BOT Chain · chainId 677 · live on mainnet</div>
+    <h1><span class="it">Stamp it,</span><br>and it exists.</h1>
+    <p class="tag">ProofOfAI is a content-authenticity registry: hash any file or text in the
+      browser — only the keccak256 is written on-chain, timestamped to your wallet forever.</p>
+    <div class="links">
+      <span>app-6laz.vercel.app</span>
+      <span>github.com/DruxAMB/ProofOfAi</span>
+    </div>
+  </div>
+
+  <h2>The problem</h2>
+  <p>A creator posts work; weeks later a dispute over who made it first can't be settled by file
+     metadata — it can be edited freely. A public timestamp anchored to a wallet settles it, but
+     only if the timestamp can't be forged <i>and the content never has to be uploaded anywhere.</i></p>
+
+  <h2>What ProofOfAI is</h2>
+  <div class="cols">
+    <div class="col">
+      <div class="card"><b>Browser-side hashing.</b> keccak256 runs client-side — the file never
+        leaves the machine. Only the 32-byte digest touches the chain; privacy by construction.</div>
+      <div class="card"><b>Anyone can verify.</b> Paste a hash; get back <span class="mono">exists,
+        author, timestamp, kind</span> — a free read call, no wallet needed.</div>
+    </div>
+    <div class="col">
+      <div class="card"><b>One content, one record.</b> Re-notarizing an identical hash reverts
+        (<span class="mono">already notarized</span>) — duplicates can't rewrite history.</div>
+      <div class="card"><b>Permanently addressed.</b> UUPS + ERC1967 proxy: the implementation can
+        be upgraded while the address consumers verify against never changes.</div>
+    </div>
+  </div>
+
+  <h2>Architecture</h2>
+  <div class="flow">
+    <span class="box">Content<br><span class="mono">browser keccak256</span></span><span class="arr">→</span>
+    <span class="box">ProofOfAI dApp (Next.js + ethers)</span><span class="arr">→</span>
+    <span class="box">ERC1967 Proxy<br><span class="mono">0xf20141960AaAafC584ad24E948e6c92dfA03CEfF</span></span><span class="arr">→</span>
+    <span class="box">Implementation<br><span class="mono">0x53887E43334fdE138F54043317732F519de65f93</span></span>
+  </div>
+  <p style="margin-top:10px">Notarization is a signed transaction (<span class="mono">notarize</span>
+    with kind: text / image / other); verification is a free call (<span class="mono">verify</span>,
+    <span class="mono">totalNotarized</span>). Upgrade authority sits with the project owner wallet only.</p>
+
+  <h2>Status &amp; traction</h2>
+  <table>
+    <tr><th>Item</th><th>State</th></tr>
+    <tr><td>Contract</td><td>Deployed on BOT Chain mainnet — proxy <span class="mono addr">0xf201…CEfF</span>, verified on scan.botchain.ai</td></tr>
+    <tr><td>Frontend</td><td>Live — app-6laz.vercel.app (notarize, verify, wallet connect)</td></tr>
+    <tr><td>Code</td><td>Open source — github.com/DruxAMB/ProofOfAi (MIT)</td></tr>
+    <tr><td>Stage</td><td>Mainnet live; registry open for first attestations</td></tr>
+  </table>
+
+  <h2>Why it fits BOT Chain</h2>
+  <ul>
+    <li><b>Native utility, not a wrapper</b> — provenance is infrastructure every AI-content tool on
+        the chain can call without permission.</li>
+    <li><b>Real transaction surface</b> — every attestation is a user-paid mainnet transaction with a
+        durable on-chain artifact.</li>
+    <li><b>Privacy-preserving by design</b> — hash-only storage proves existence without exposing
+        content; no custodial upload anywhere.</li>
+    <li><b>Composable</b> — any contract can call <span class="mono">verify</span> on-chain; tipping,
+        badges and oracle consumers can gate on attestation.</li>
+  </ul>
+
+  <h2>Roadmap</h2>
+  <ul>
+    <li>Attestation feed UI (recent notarizations) beyond hash-only lookup.</li>
+    <li>Batch notarization — one tx, many hashes, for publishing pipelines.</li>
+    <li>Signed-metadata attestations linking hashes to AgentID registry entries.</li>
+    <li>Verify-as-middleware snippets other BOT Chain dApps can drop in.</li>
+  </ul>
+
+  <p style="margin-top:40px;font-size:12px;color:#888">ProofOfAI · BOT Chain Ecosystem Support Program application · 2026</p>
+</div>
+</body>
+</html>
