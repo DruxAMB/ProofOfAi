@@ -4,6 +4,7 @@ Prove a file, image or text existed at a point in time. The content is
 hashed in the browser — only the keccak256 goes on-chain, timestamped to
 your wallet forever.
 
+**Live app:** [app-6laz.vercel.app](https://app-6laz.vercel.app/) ·
 **Contract:** [`0xf2014196…03CEfF`](https://scan.botchain.ai/address/0xf20141960AaAafC584ad24E948e6c92dfA03CEfF)
 (UUPS proxy on BOT Chain mainnet, chain 677)
 **Repo:** github.com/DruxAMB/ProofOfAi
