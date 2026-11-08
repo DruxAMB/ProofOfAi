@@ -6,3 +6,6 @@ app/.next/
 app/out/
 app/next-env.d.ts
 state/
+
+# Local Netlify folder
+.netlify
